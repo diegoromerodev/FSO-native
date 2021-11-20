@@ -1,4 +1,6 @@
-{
+import 'dotenv/config';
+
+export default {
   "expo": {
     "name": "expo-exercise",
     "slug": "expo-exercise",
@@ -9,6 +11,10 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "extra": {
+        "env": process.env.ENV,
+        "apolloUri": process.env.APOLLO_URI
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -29,4 +35,4 @@
       "favicon": "./assets/favicon.png"
     }
   }
-}
+};
