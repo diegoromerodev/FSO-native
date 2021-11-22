@@ -8,4 +8,28 @@ const signInMutation = gql`
     }
 `;
 
-export default {signInMutation};
+const createReviewMutation = gql`
+    mutation CreateReview($review: CreateReviewInput) {
+        createReview(review: $review) {
+            text
+            createdAt
+        }
+    }
+`;
+
+const signUpMutation = gql`
+    mutation CreateUser($user: CreateUserInput) {
+        createUser(user: $user) {
+            username
+            createdAt
+        }
+    }
+`;
+
+const deleteReviewMutation = gql`
+    mutation DeleteReview($reviewId: ID!){
+        deleteReview(id: $reviewId)
+    }
+`;
+
+export default {signInMutation, createReviewMutation, signUpMutation, deleteReviewMutation};

@@ -8,7 +8,7 @@ const SignInForm = ({ onSubmit }) => {
         <View style={styles.form}>
             <FormikInput name="username" />
             <FormikInput name="password" />
-            <Pressable onPress={onSubmit}>
+            <Pressable onPress={onSubmit} testID="submitSignIn">
                 <View style={styles.submit}>
                     <Text style={{color: theme.light, textAlign: "center"}}>SIGN IN</Text>
                 </View>

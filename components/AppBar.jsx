@@ -1,30 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, ScrollView, Pressable } from 'react-native';
-import Constants from 'expo-constants';
-import theme from '../theme';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import AppBarTab from './AppBarTab';
-import { Link } from 'react-router-native';
+import { useNavigate } from 'react-router-native';
 import { useApolloClient, useQuery } from '@apollo/client';
 import queries from './graphql/queries';
 import useAuthStorage from './hooks/useAuthStorage';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight + 5,
-    backgroundColor: theme.dark,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
     flexDirection: "row",
-    justifyContent: 'space-between',
-    alignItems: 'center',
     flex: 1,
-    flexShrink: 0,
+    backgroundColor: theme.dark
   },
-  link: {
-    color: theme.blue,
-    fontWeight: "600",
-    fontFamily: theme.fontFamily
-  }
 });
 
 const AppBar = () => {
@@ -32,6 +20,7 @@ const AppBar = () => {
   const authContext = useAuthStorage();
   const {data} = useQuery(queries.getAuthUser);
   const client = useApolloClient();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(data) {
@@ -45,19 +34,18 @@ const AppBar = () => {
     client.resetStore();
   };
 
+  console.log(signed);
+
   return (
       <View>
             <ScrollView horizontal contentContainerStyle={{width: "100%"}}>
                 <View style={styles.container}>
-                    <Link to="/">
-                        <AppBarTab text={"Repositories"} />
-                    </Link>
-                    {!signed ? (<Link to="/signIn">
-                        <Text style={styles.link}>SIGN IN</Text>
-                    </Link> ):(
-                    <Pressable onPress={handleSignOut}>
-                        <Text style={styles.link}>SIGN OUT</Text>
-                    </Pressable>)}
+                    <AppBarTab text="Repositories" handlePress={() => navigate("/")}/>
+                    {signed && <AppBarTab text="Create review" handlePress={() => navigate("/createReview")}/>}
+                    {signed && <AppBarTab text="My Reviews" handlePress={() => navigate("/myReviews")}/>}
+                    <AppBarTab handlePress={!signed ? () => navigate("/signIn") : handleSignOut} 
+                                text={signed ? "Sign Out" : "Sign In"} />
+                    {!signed && <AppBarTab text="Sign up" handlePress={() => navigate("/signUp")}/>}
                 </View>
             </ScrollView>
       </View>

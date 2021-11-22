@@ -3,13 +3,13 @@ import React from "react";
 import { Text, TextInput, StyleSheet } from "react-native";
 import theme from "../theme";
 
-const FormikInput = ({name, ...props}) => {
+const FormikInput = ({name, placeholder, ...props}) => {
     const [field, meta, helpers] = useField(name);
     const showError = meta.touched && meta.error;
     return (
         <>
-        <TextInput placeholder={name}
-            secureTextEntry={name === "password"}
+        <TextInput placeholder={placeholder || name}
+            secureTextEntry={name.includes("password")}
             style={[styles.input, showError && styles.inputError]}
             value={field.value}
             onChangeText={(text) => helpers.setValue(text)}
